@@ -767,6 +767,111 @@ Name                   Default      Description
 type                   REQUIRED     The filter type.
 ====================== ===========  ================
 
+.. _man-configuration-json-layout:
+
+JSON layout
+------------
+
+.. code-block:: yaml
+
+    layout:
+      type: json
+      timestampFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+      prettyPrint: false
+      appendLineSeparator: true
+      includes:
+        - timestamp
+        - threadName
+        - level
+        - loggerName
+        - message
+        - MDC
+        - exception
+      customFieldNames:
+        timestamp: "@timestamp"
+      additionalFields:
+        service-name: "user-service"
+
+=======================  ===========  ================
+Name                     Default      Description
+=======================  ===========  ================
+timestampFormat          (none)       By default, the timestamp is not formatted. To customize how timestamps are formatted,
+                                      set the property to the corresponding DateFormatter string.
+prettyPrint              false        Whether the JSON output should be formatted for human readability.
+appendLineSeparator      true         Whether to append a line separator at the end of the message formatted as JSON.
+includes:
+                                      * ``timestamp``   true   Whether to include the timestamp in the JSON map as the ``timestamp`` field.
+                                      * ``level``       true   Whether to include the logging level in the JSON map as the ``level`` field.
+                                      * ``threadName``  true   Whether to include the thread name in the JSON map as the ``thread`` field.
+                                      * ``MDC``         true   Whether to include the MDC properties in the JSON map as the ``mdc`` field.
+                                      * ``loggerName``  true   Whether to include the logger name in the JSON map as the ``logger`` field.
+                                      * ``message``     true   Whether to include the formatted message in the JSON map as the ``message`` field ..
+                                      * ``exception``   true   Whether to log exceptions. If the property enabled and there is an exception, it will be formatted to a string added in the JSON map as the ``exception`` field.
+                                      * ``contextName`` false  Whether to include the logging context name in the JSON map as the ``context`` field ..
+customFieldNames         (empty)      A map of field name replacements in the JSON map. For example ``requestTime:request_time, userAgent:user_agent)``.
+additionalFields         (empty)      A map of fields to add in the JSON map.
+
+.. _man-configuration-json-access-layout:
+
+JSON access log layout
+------------
+
+.. code-block:: yaml
+
+    layout:
+      type: access-json
+      timestampFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+      prettyPrint: false
+      appendLineSeparator: true
+      includes:
+        - timestamp
+        - remoteAddress
+        - remoteUser
+        - requestTime
+        - requestUri
+        - statusCode
+        - method
+        - protocol
+        - contentLength
+        - userAgent
+      requestHeaders:
+        - X-Request-Id
+      responseHeaders:
+        - X-Request-Id
+      customFieldNames:
+        timestamp: "@timestamp"
+      additionalFields:
+        service-name: "user-service"
+=======================  ===========  ================
+Name                     Default      Description
+=======================  ===========  ================
+includeTimestamp         true         .
+timestampFormat          (none)       By default, the timestamp is not formatted. To customize how timestamps are formatted,
+                                      set the property to the corresponding DateFormatter string.
+prettyPrint              false        Whether the JSON output should be formatted for human readability.
+appendLineSeparator      true         Whether to append a line separator at the end of the message formatted as JSON.
+includes
+                                      * timestamp         true     Whether to include the timestamp of the event to the JSON map the ``timestamp`` field.
+                                      * remoteAddress     true     Whether to include the IP address of the client or last proxy that sent the request in the JSON map as the ``remoteAddress`` field.
+                                      * remoteUser        true     Whether to include information about the remote user in the JSON map as the ``remoteUser`` field.
+                                      * requestTime       true     Whether to include the time elapsed between receiving the request and logging it in the JSON map as the ``requestTime`` field. Time is in _ms_.
+                                      * uri               true     Whether to include the URI of the request in the JSON map as the ``uri`` field.
+                                      * statusCode        true     Whether to include the status code of the response in the JSON map as the ``status`` field.
+                                      * method            true     Whether to include the request HTTP method in the JSON map as the ``method`` field.
+                                      * protocol          true     Whether to include the request HTTP protocol in the JSON map as the ``protocol`` field.
+                                      * contentLength     true     Whether to include the response content length, if it's known in the JSON map as the ``contentLength`` field.
+                                      * userAgent         true     Whether to include the user agent of the request in the JSON map as the ``userAgent`` field.
+                                      * requestURL        false    Whether to include the request URL (method, URI, query parameters, protocol) in the JSON map as the ``contentLength`` field.
+                                      * remoteHost        false    Whether to include the fully qualified name of the client or the last proxy that sent the request in the JSON map as the ``remoteHost`` field.
+                                      * serverName        false    Whether to include the name of the server to which the request was sent in the JSON map as the ``serverName`` field.
+                                      * requestParameters true     Whether to include the request parameters in the JSON map as the ``params`` field.
+                                      * requestContent    false    Whether to include the body of the request in the JSON map as the ``requestContent`` field.
+                                      * responseContent   false    Whether to include the response body in the JSON map as the ``responseContent`` field.
+includeLocalPort         false        Whether to include the port number of the interface on which the request was received in the JSON map as the ``localPort`` field.
+responseHeaders          (empty)      List of response headers included in the JSON map as the ``responseHeaders`` field.
+requestHeaders           (empty)      List of request headers included in the JSON map as the ``headers`` field.
+customFieldNames         (empty)      Map of field name replacements in the JSON map. For example ``requestTime:request_time, userAgent:user_agent)``.
+additionalFields         (empty)      Map of fields to add in the JSON map.
 .. _man-configuration-metrics:
 
 Metrics

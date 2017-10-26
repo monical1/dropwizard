@@ -1025,6 +1025,43 @@ appender with different configurations:
 
 .. _man-core-logging-http-config:
 
+JSON Log Format
+---------------
+
+You may prefer to produce logs in a structured format such as JSON, so it can be processed by analytics or BI software.
+For that, add a module to the project for supporting JSON layouts:
+
+.. code-block:: xml
+
+    <dependency>
+        <groupId>io.dropwizard</groupId>
+        <artifactId>dropwizard-json-logging</artifactId>
+        <version>{$dropwizard.version}</version>
+    </dependency>
+
+Setup the JSON layout in the configuration file.
+
+For general logging:
+
+.. code-block:: yaml
+
+    logging:
+      appenders:
+        - type: console
+          layout:
+            type: json
+
+For request logging:
+
+.. code-block:: yaml
+
+    server:
+      requestLog:
+        appenders:
+          - type: console
+            layout:
+              type: access-json
+
 Logging Configuration via HTTP
 ------------------------------
 
